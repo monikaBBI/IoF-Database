@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Insure Our Future — Insurer Database</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#0E1F2B;
+    --ink-soft:#3C525F;
+    --slate:#6B7F8A;
+    --paper:#F2F4F3;
+    --card:#FFFFFF;
+    --rule:#D3DBD8;
+    --ochre:#9A6B12;
+    --ochre-field:#FBF1DC;
+    --ochre-rule:#D9A93F;
+    --teal:#1F6F6B;
+    --maxw:1180px;
+  }
+
+  *{box-sizing:border-box;}
+
+  html,body{margin:0;padding:0;}
+
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:"IBM Plex Sans",system-ui,-apple-system,sans-serif;
+    font-size:16px;
+    line-height:1.55;
+    -webkit-font-smoothing:antialiased;
+  }
+
+  a{color:var(--teal);}
+
+  :focus-visible{
+    outline:2px solid var(--teal);
+    outline-offset:3px;
+  }
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 24px;
+  }
+
+  /* ---------- Masthead ---------- */
+
+  .masthead{
+    background:var(--ink);
+    color:#EAF0EE;
+    padding:28px 0 26px;
+  }
+
+  .masthead .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    gap:24px;
+    align-items:flex-end;
+    justify-content:space-between;
+  }
+
+  .eyebrow{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#8FB3AE;
+    margin:0 0 8px;
+  }
+
+  .masthead h1{
+    font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;
+    font-weight:700;
+    font-size:clamp(28px,4.4vw,42px);
+    line-height:1.05;
+    letter-spacing:-.02em;
+    margin:0;
+  }
+
+  .masthead p.lede{
+    margin:10px 0 0;
+    max-width:52ch;
+    color:#B8CBC7;
+    font-size:15px;
+  }
+
+  /* Persistent contact — visible on every tab */
+  .owner{
+    border-left:2px solid var(--ochre-rule);
+    padding-left:14px;
+    min-width:240px;
+  }
+
+  .owner .label{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:10px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    color:#8FB3AE;
+    display:block;
+    margin-bottom:4px;
+  }
+
+  .owner .who{
+    font-size:14px;
+    color:#EAF0EE;
+    margin:0;
+  }
+
+  .owner a{
+    color:#F0D091;
+    text-decoration:none;
+    border-bottom:1px solid rgba(240,208,145,.4);
+  }
+
+  .owner a:hover{border-bottom-color:#F0D091;}
+
+  /* ---------- Tabs ---------- */
+
+  .tabstrip{
+    background:var(--ink);
+    border-bottom:1px solid var(--rule);
+  }
+
+  .tabstrip .wrap{
+    display:flex;
+    gap:4px;
+    overflow-x:auto;
+    scrollbar-width:none;
+  }
+
+  .tabstrip .wrap::-webkit-scrollbar{display:none;}
+
+  .tab{
+    appearance:none;
+    background:transparent;
+    border:0;
+    border-radius:6px 6px 0 0;
+    color:#8FB3AE;
+    cursor:pointer;
+    font-family:"IBM Plex Sans",sans-serif;
+    font-size:14px;
+    font-weight:500;
+    padding:13px 20px;
+    white-space:nowrap;
+    transition:background .15s ease,color .15s ease;
+  }
+
+  .tab:hover{color:#EAF0EE;background:rgba(255,255,255,.06);}
+
+  .tab[aria-selected="true"]{
+    background:var(--paper);
+    color:var(--ink);
+    font-weight:600;
+  }
+
+  .tab .count{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    color:var(--slate);
+    margin-left:8px;
+  }
+
+  .tab[aria-selected="true"] .count{color:var(--ochre);}
+
+  /* ---------- Panels ---------- */
+
+  .panel{padding:28px 0 56px;}
+
+  .panel[hidden]{display:none;}
+
+  .panel h2{
+    font-family:"Bricolage Grotesque","IBM Plex Sans",sans-serif;
+    font-weight:700;
+    font-size:24px;
+    letter-spacing:-.015em;
+    margin:0 0 6px;
+  }
+
+  .panel .sub{
+    margin:0 0 22px;
+    color:var(--ink-soft);
+    max-width:68ch;
+    font-size:15px;
+  }
+
+  /* Signature element: the advisory endorsement block */
+  .advisory{
+    background:var(--ochre-field);
+    border:1px solid var(--ochre-rule);
+    border-left-width:5px;
+    border-radius:3px;
+    padding:20px 24px;
+    margin:0 0 24px;
+  }
+
+  .advisory .stamp{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    font-weight:500;
+    letter-spacing:.16em;
+    text-transform:uppercase;
+    color:var(--ochre);
+    margin:0 0 10px;
+  }
+
+  .advisory p{margin:0 0 12px;max-width:70ch;font-size:15px;}
+
+  .advisory p:last-child{margin-bottom:0;}
+
+  .advisory .contact{
+    border-top:1px solid var(--ochre-rule);
+    margin-top:16px;
+    padding-top:14px;
+    font-size:14.5px;
+  }
+
+  .advisory .contact strong{display:block;font-weight:600;}
+
+  .advisory .contact a{color:var(--ochre);}
+
+  .advisory ul{margin:8px 0 0;padding-left:0;list-style:none;}
+
+  .advisory li{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:13.5px;
+    padding:2px 0;
+  }
+
+  /* Action row */
+  .actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    align-items:center;
+    margin:0 0 18px;
+  }
+
+  .btn{
+    display:inline-block;
+    background:var(--ink);
+    border:1px solid var(--ink);
+    border-radius:4px;
+    color:#EAF0EE;
+    font-size:14px;
+    font-weight:500;
+    padding:9px 18px;
+    text-decoration:none;
+    transition:background .15s ease;
+  }
+
+  .btn:hover{background:var(--teal);border-color:var(--teal);}
+
+  .actions .hint{
+    color:var(--slate);
+    font-size:13.5px;
+    max-width:46ch;
+  }
+
+  /* Embed frame */
+  .frame{
+    background:var(--card);
+    border:1px solid var(--rule);
+    border-radius:4px;
+    overflow:hidden;
+  }
+
+  .frame iframe{
+    display:block;
+    width:100%;
+    height:min(72vh,760px);
+    border:0;
+    background:var(--card);
+  }
+
+  .frame .loading{
+    color:var(--slate);
+    font-family:"IBM Plex Mono",monospace;
+    font-size:12px;
+    letter-spacing:.08em;
+    padding:60px 24px;
+    text-align:center;
+    text-transform:uppercase;
+  }
+
+  /* ---------- Footer ---------- */
+
+  footer{
+    border-top:1px solid var(--rule);
+    padding:24px 0 44px;
+  }
+
+  footer .wrap{
+    display:flex;
+    flex-wrap:wrap;
+    gap:16px;
+    justify-content:space-between;
+    align-items:baseline;
+  }
+
+  footer p{
+    margin:0;
+    color:var(--slate);
+    font-size:13.5px;
+    max-width:60ch;
+  }
+
+  footer .mono{
+    font-family:"IBM Plex Mono",monospace;
+    font-size:11px;
+    letter-spacing:.12em;
+    text-transform:uppercase;
+  }
+
+  @media (max-width:720px){
+    .masthead .wrap{align-items:flex-start;}
+    .owner{min-width:0;}
+    .frame iframe{height:78vh;}
+  }
+
+  @media (prefers-reduced-motion:reduce){
+    *{transition:none !important;animation:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<header class="masthead">
+  <div class="wrap">
+    <div>
+      <p class="eyebrow">Insure Our Future</p>
+      <h1>Insurer Database</h1>
+      <p class="lede">Fossil fuel underwriting and investment policies, offices and contacts for major global insurers and reinsurers.</p>
+    </div>
+    <div class="owner">
+      <span class="label">Questions about the data</span>
+      <p class="who">Monika<br><a href="mailto:monika@boycottbloodyinsurance.org">monika@boycottbloodyinsurance.org</a></p>
+    </div>
+  </div>
+</header>
+
+<nav class="tabstrip">
+  <div class="wrap" role="tablist" aria-label="Database tables">
+    <button class="tab" role="tab" id="tab-database" aria-controls="panel-database" aria-selected="true">Insurer database</button>
+    <button class="tab" role="tab" id="tab-offices" aria-controls="panel-offices" aria-selected="false" tabindex="-1">Office locations</button>
+    <button class="tab" role="tab" id="tab-contacts" aria-controls="panel-contacts" aria-selected="false" tabindex="-1">Insurer contacts<span class="count">read first</span></button>
+  </div>
+</nav>
+
+<main>
+
+  <!-- ============ IoF Database ============ -->
+  <section class="panel" id="panel-database" role="tabpanel" aria-labelledby="tab-database" tabindex="0">
+    <div class="wrap">
+      <h2>Insurer database</h2>
+      <p class="sub">Coal and oil &amp; gas exclusions for underwriting and investment, policy links, gaps and loopholes, human rights and FPIC commitments, and premium data for each insurer.</p>
+
+      <div class="actions">
+        <a class="btn" href="https://airtable.com/appv3hpiiiiBlunyd/shrppu31SsURkBA40?prefill_Target+Table=IoF+Database&amp;hide_Target+Table=true&amp;prefill_Submission+Type=New+record+to+add&amp;hide_Submission+Type=true" target="_blank" rel="noopener">Suggest an insurer to add</a>
+        <span class="hint">To correct an existing entry, use the <strong>Suggest an edit</strong> button on that insurer's row.</span>
+      </div>
+
+      <div class="frame" data-src="https://airtable.com/embed/appv3hpiiiiBlunyd/shr6ylminuq8TU71a?viewControls=on">
+        <p class="loading">Loading table…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Office Locations ============ -->
+  <section class="panel" id="panel-offices" role="tabpanel" aria-labelledby="tab-offices" tabindex="0" hidden>
+    <div class="wrap">
+      <h2>Office locations</h2>
+      <p class="sub">Global headquarters, regional offices, branches, representative offices and Lloyd's syndicates, linked to their parent insurer.</p>
+
+      <div class="actions">
+        <a class="btn" href="https://airtable.com/appv3hpiiiiBlunyd/shrdD4JtsBaKMcits?prefill_Target+Table=Office+Locations&amp;hide_Target+Table=true&amp;prefill_Submission+Type=New+record+to+add&amp;hide_Submission+Type=true" target="_blank" rel="noopener">Suggest an office to add</a>
+        <span class="hint">Include the city, country, full street address and office type.</span>
+      </div>
+
+      <div class="frame" data-src="https://airtable.com/embed/appv3hpiiiiBlunyd/shrie1RuILarvylDq?viewControls=on">
+        <p class="loading">Loading table…</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ Insurer Contacts ============ -->
+  <section class="panel" id="panel-contacts" role="tabpanel" aria-labelledby="tab-contacts" tabindex="0" hidden>
+    <div class="wrap">
+      <h2>Insurer contacts</h2>
+
+      <div class="advisory">
+        <p class="stamp">⚠ Read before using this list</p>
+        <p>Before reaching out to contacts on this list, please consult with the IOF partner(s) listed as a primary IOF contact.</p>
+        <p>When in doubt, or if you can't reach the partner, contact:</p>
+        <div class="contact">
+          <strong>Mary Sweeters — IOF Global Network Coordinator</strong>
+          <ul>
+            <li>✉ <a href="mailto:mary@sunriseproject.org">mary@sunriseproject.org</a></li>
+            <li>☎ <a href="tel:+19512754676">+1 951 275 4676</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="actions">
+        <a class="btn" href="https://airtable.com/appv3hpiiiiBlunyd/shruzOY4Q2DDDC5WN?prefill_Target+Table=Insurer+Contacts&amp;hide_Target+Table=true&amp;prefill_Submission+Type=New+record+to+add&amp;hide_Submission+Type=true" target="_blank" rel="noopener">Suggest a contact to add</a>
+        <span class="hint">Include name, job title, role, region, email and which insurer.</span>
+      </div>
+
+      <div class="frame" data-src="https://airtable.com/embed/appv3hpiiiiBlunyd/shrnkEwXosoG466Vs?viewControls=on">
+        <p class="loading">Loading table…</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <p>Spotted something out of date? Use the <strong>Suggest an edit</strong> button on any row. Every suggestion is reviewed before it changes the database.</p>
+    <p class="mono">Insure Our Future</p>
+  </div>
+</footer>
+
+<script>
+(function(){
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('[role="tab"]'));
+
+  // Load each embed only when its tab is first opened, so the page
+  // doesn't pull three Airtable views on arrival.
+  function mountFrame(panel){
+    var frame = panel.querySelector('.frame');
+    if(!frame || frame.dataset.mounted) return;
+    frame.dataset.mounted = '1';
+    var iframe = document.createElement('iframe');
+    iframe.src = frame.dataset.src;
+    iframe.setAttribute('loading','lazy');
+    iframe.setAttribute('title', panel.querySelector('h2').textContent);
+    frame.innerHTML = '';
+    frame.appendChild(iframe);
+  }
+
+  function select(tab){
+    tabs.forEach(function(t){
+      var isTarget = t === tab;
+      var panel = document.getElementById(t.getAttribute('aria-controls'));
+      t.setAttribute('aria-selected', isTarget ? 'true' : 'false');
+      t.tabIndex = isTarget ? 0 : -1;
+      panel.hidden = !isTarget;
+      if(isTarget) mountFrame(panel);
+    });
+  }
+
+  tabs.forEach(function(tab, i){
+    tab.addEventListener('click', function(){ select(tab); });
+    tab.addEventListener('keydown', function(e){
+      var next = null;
+      if(e.key === 'ArrowRight') next = tabs[(i + 1) % tabs.length];
+      if(e.key === 'ArrowLeft')  next = tabs[(i - 1 + tabs.length) % tabs.length];
+      if(e.key === 'Home')       next = tabs[0];
+      if(e.key === 'End')        next = tabs[tabs.length - 1];
+      if(next){ e.preventDefault(); next.focus(); select(next); }
+    });
+  });
+
+  mountFrame(document.getElementById('panel-database'));
+})();
+</script>
+
+</body>
+</html>
